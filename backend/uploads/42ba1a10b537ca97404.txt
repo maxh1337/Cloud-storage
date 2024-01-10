@@ -1,0 +1,5 @@
+https://code.visualstudio.com/
+https://www.pgadmin.org/download/pgadmin-4-windows/
+https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+https://insomnia.rest/download
+https://nodejs.org/en

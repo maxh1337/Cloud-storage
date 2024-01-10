@@ -1,0 +1,6 @@
+conf t
+interface fastEthernet 1/0
+ip address 192.168.88.40 255.255.255.0
+no shutdown
+
+show ip int br
