@@ -5,6 +5,7 @@ import { FC, useEffect, useState } from "react";
 import Loader from "../Loader";
 
 import { useActions } from "@/hooks/useActions";
+import { handleDownloadAllFiles } from "@/hooks/useFile";
 import { DeleteThemeOrFile } from "@/hooks/useFileOrTheme";
 import { useGetCurrentShown, useIsDeleteShown } from "@/hooks/useShowAndDelete";
 import { ITheme } from "@/types/theme.interface";
@@ -47,14 +48,24 @@ const Catalog: FC<ICatalog> = ({ title, data, isLoading, refetch }) => {
       />
       {title && <Heading className="mb-5 text-blue m-4">{title}</Heading>}
       <div className=" mb-3 flex justify-between m-4">
-        <Button
-          variant="blue"
-          className=" select-none"
-          size="md"
-          onClick={() => setIsVisible(!isVisible)}
-        >
-          Создать
-        </Button>
+        <div>
+          <Button
+            variant="blue"
+            className=" select-none"
+            size="md"
+            onClick={() => setIsVisible(!isVisible)}
+          >
+            Создать
+          </Button>
+          <Button
+            variant="blue"
+            className=" select-none ml-2"
+            size="md"
+            onClick={() => handleDownloadAllFiles()}
+          >
+            Скачать все файлы
+          </Button>
+        </div>
         {isDeleteShown ? (
           <Popconfirm
             title="Удалить файл(ы)?"

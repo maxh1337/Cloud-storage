@@ -30,11 +30,13 @@ export class FileController {
 	async getAll() {
 		return this.fileService.getAllFiles()
 	}
+
 	@Get('getByTheme/:id')
 	@Auth()
 	async getAllThemeFiles(@Param('id') id: string) {
 		return this.fileService.getAllThemeFiles(+id)
 	}
+
 	@Get('download/:fileId')
 	@Auth()
 	async downloadFile(
@@ -46,11 +48,16 @@ export class FileController {
 			'Content-Type': 'application/json',
 			'Content-Disposition': `attachment; filename=${file.originalName}`
 		})
+
 		const strmFile = createReadStream(
 			join(process.cwd(), `./uploads/${file.fileName}`)
 		)
+
+		console.log(new StreamableFile(strmFile))
+
 		return new StreamableFile(strmFile)
 	}
+
 	@Post('upload/:themeId')
 	@Auth()
 	@UseInterceptors(FileInterceptor('file', { storage: fileStorage }))
@@ -74,5 +81,31 @@ export class FileController {
 		@Param('fileId') fileId: string
 	) {
 		return this.fileService.deleteFile(+fileId)
+	}
+
+	@Get('download-all')
+	@Auth()
+	async downloadAllFiles(@Res({ passthrough: true }) res: Response) {
+		const files = await this.fileService.downloadAdllFiles()
+		let array = []
+
+		{
+			files.map(file => {
+				res.set({
+					'Content-Type': 'application/json',
+					'Content-Disposition': `attachment; filename=${file.originalName}`
+				})
+
+				const strmFile = createReadStream(
+					join(process.cwd(), `./uploads/${file.fileName}`)
+				)
+
+				const originalName = file.originalName
+				const streamableFile = new StreamableFile(strmFile)
+				array.push({ ...streamableFile, originalName })
+			})
+		}
+
+		return array
 	}
 }

@@ -14,8 +14,6 @@ const ThemeItem: FC<{ theme: ITheme; type: "theme" }> = ({ theme, type }) => {
 
   const { showDelete } = useActions();
 
-  console.log(theme);
-
   return (
     <div
       className={cn(

@@ -66,6 +66,12 @@ export class FileService {
 		return file
 	}
 
+	async downloadAdllFiles() {
+		const files = await this.prisma.file.findMany({})
+
+		return files
+	}
+
 	async deleteFile(fileId: number) {
 		const file = await this.prisma.file.findUnique({
 			where: {
