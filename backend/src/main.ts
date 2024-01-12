@@ -13,6 +13,6 @@ async function bootstrap() {
 
 	app.use('/uploads', express.static(join(__dirname, '..', 'uploads')))
 
-	await app.listen(4200)
+	await app.listen(4201)
 }
 bootstrap()

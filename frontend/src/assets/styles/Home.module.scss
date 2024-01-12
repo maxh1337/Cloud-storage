@@ -17,11 +17,21 @@
 }
 
 .layout {
-  display: flex;
+  display: grid;
   flex-direction: row;
   min-height: 800px;
   background: #fff;
   border-radius: 15px;
+  margin: 4rem 6rem 4rem 8rem;
+}
+
+.themeLayout {
+  display: grid;
+  flex-direction: row;
+  min-height: 800px;
+  background: #fff;
+  border-radius: 15px;
+  margin: 4rem 6rem 4rem 8rem;
 }
 
 .menu {
@@ -32,5 +42,4 @@
 
 .dashboardContainer {
   display: grid;
-  grid-template-columns: 0.1fr 2fr;
 }

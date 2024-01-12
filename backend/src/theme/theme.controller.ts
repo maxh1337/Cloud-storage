@@ -17,13 +17,13 @@ export class FolderController {
 	constructor(private readonly themeService: ThemeService) {}
 
 	@Get()
-	@Auth()
+	// @Auth()
 	async getAll() {
 		return this.themeService.getAll()
 	}
 
 	@Get(':id')
-	@Auth()
+	// @Auth()
 	async getById(@Param('id') id: string) {
 		return this.themeService.getById(+id)
 	}
@@ -35,7 +35,7 @@ export class FolderController {
 		return this.themeService.create(dto)
 	}
 
-	@Delete(':id')
+	@Delete('delete/:id')
 	@Auth()
 	async delete(@Param('id') id: string) {
 		return this.themeService.delete(+id)

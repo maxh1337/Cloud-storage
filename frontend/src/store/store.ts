@@ -9,16 +9,14 @@ import {
   persistStore,
 } from "redux-persist";
 
-import { changeTypeSlice } from "./change-type/change-type.slice";
-import { filtersSlice } from "./filters/filters.slice";
+import { showAndDeleteSlice } from "./showDelete/show-delete.slice";
 import { userSlice } from "./user/user.slice";
 
 const isClient = typeof window !== "undefined";
 
 const combinedReducers = combineReducers({
   user: userSlice.reducer,
-  filters: filtersSlice.reducer,
-  changeType: changeTypeSlice.reducer,
+  changeType: showAndDeleteSlice.reducer,
 });
 
 let mainReducer = combinedReducers;

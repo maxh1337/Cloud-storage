@@ -34,8 +34,8 @@ model File {
   developmentDepartment String? @map("development_department")
 
   themeName String @map("theme_name")
-  theme     Theme  @relation(fields: [themeId], references: [id])
-  themeId   Int
+  theme     Theme? @relation(fields: [themeId], references: [id])
+  themeId   Int?
 }
 
 model Theme {

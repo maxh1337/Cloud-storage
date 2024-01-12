@@ -30,6 +30,8 @@ export class FileService {
 			}
 		})
 
+		console.log(themeId)
+
 		if (!linkedTheme) throw new NotFoundException('Theme not found')
 
 		const uploadedFile = await this.prisma.file.create({
@@ -81,8 +83,6 @@ export class FileService {
 			}
 		})
 
-		return {
-			Файл: file.originalName + '  Успешно удален'
-		}
+		return file
 	}
 }

@@ -1,10 +1,11 @@
 import instance from "@/api/api.interceptor";
+import { IRefetch } from "@/app/layout/dashboardLayout/DashboardLayout";
 import { IFormData } from "@/types/file.interface";
 import classNames from "classnames";
 import React, { useRef, useState } from "react";
 import Button from "../button/Button";
 
-export const UploadButton: React.FC = () => {
+export const UploadButton: React.FC<IRefetch> = ({ refetch, params }) => {
   const [file, setFile] = useState<File | undefined>();
   const FILES = "file";
   const filePicker = useRef(null);
@@ -16,18 +17,18 @@ export const UploadButton: React.FC = () => {
 
     const formData = new FormData();
 
+    console.log(params?.id);
+
     formData.append("file", file);
     formData.append("executorName", "Воробьев Максим Михайлович");
     formData.append("developmentDepartment", "Политех");
 
-    console.log(formData);
-
     return instance<IFormData>({
-      url: `${FILES}/upload/1`,
+      url: `${FILES}/upload/${params?.id as number}`,
       headers: { "Content-Type": "multipart/form-data" },
       method: "POST",
       data: formData,
-    }).then((r) => console.log(r.data));
+    }).then(() => refetch());
   }
 
   function handleOnChange(e: React.FormEvent<HTMLInputElement>) {
@@ -55,7 +56,11 @@ export const UploadButton: React.FC = () => {
           "hover:cursor-pointer border rounded-lg text-gray-400": true,
         })}
       ></input>
-      <Button variant="blue" className=" mt-2" onClick={handleOnSubmit}>
+      <Button
+        variant="blue"
+        className=" mt-2 select-none"
+        onClick={handleOnSubmit}
+      >
         Отправить
       </Button>
     </>

@@ -3,12 +3,16 @@ import {
 	Injectable,
 	NotFoundException
 } from '@nestjs/common'
+import { FileService } from 'src/file/file.service'
 import { PrismaService } from 'src/prisma.service'
 import { CreateThemeDto } from './dto/create-folder.dto'
 
 @Injectable()
 export class ThemeService {
-	constructor(private prisma: PrismaService) {}
+	constructor(
+		private prisma: PrismaService,
+		private fileService: FileService
+	) {}
 
 	async getAll() {
 		return await this.prisma.theme.findMany({
@@ -63,6 +67,9 @@ export class ThemeService {
 				themeCode: dto.themeCode,
 				themeHead: dto.themeHead,
 				endDate: dto.endDate
+			},
+			include: {
+				files: true
 			}
 		})
 
@@ -73,10 +80,19 @@ export class ThemeService {
 		const isExist = await this.prisma.theme.findUnique({
 			where: {
 				id
+			},
+			include: {
+				files: true
 			}
 		})
 
 		if (!isExist) throw new NotFoundException('Theme not found')
+
+		if (isExist.files.length !== 0) {
+			isExist.files.map(file => {
+				this.fileService.deleteFile(file.id)
+			})
+		}
 
 		return await this.prisma.theme.delete({
 			where: {

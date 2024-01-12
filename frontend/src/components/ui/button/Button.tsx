@@ -2,7 +2,7 @@ import cn from "clsx";
 import { ButtonHTMLAttributes, FC, PropsWithChildren } from "react";
 
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: "blue" | "gray";
+  variant: "blue" | "gray" | "red";
   size?: "sm" | "md" | "lg";
 }
 
@@ -21,6 +21,7 @@ const Button: FC<PropsWithChildren<IButton>> = ({
         {
           "btn-blue": variant === "blue",
           "btn-gray": variant === "gray",
+          "btn-red": variant === "red",
           "px-5 py-5 text-sm": size === "sm",
           "btn-large": size === "lg",
         },

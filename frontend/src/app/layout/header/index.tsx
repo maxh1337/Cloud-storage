@@ -16,13 +16,15 @@ export const Header: React.FC = () => {
 
   const { logout } = useActions();
 
+  const router = useRouter();
+
   const data = useProfile();
 
   return (
     <Layout.Header className={styles.root}>
       <div className={styles.headerInner}>
         <div className={styles.headerLeft}>
-          <h2>
+          <h2 onClick={() => router.push("/")} className=" cursor-pointer">
             <CloudOutlined />
             Cloud Storage
           </h2>
@@ -34,8 +36,8 @@ export const Header: React.FC = () => {
             defaultSelectedKeys={[pathname]}
             onSelect={({ key }) => push(key)}
             items={[
-              { key: "/dashboard", label: "Главная" },
-              { key: "/dashboard/profile", label: "Профиль" },
+              { key: "/", label: "Главная" },
+              { key: "/profile", label: "Профиль" },
             ]}
           />
         </div>
