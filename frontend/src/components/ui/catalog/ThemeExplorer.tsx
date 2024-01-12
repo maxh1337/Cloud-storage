@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ThemeService } from "@/services/theme/theme.service";
 import { IPageIdParam } from "@/types/page-params";
 import { useQuery } from "@tanstack/react-query";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import FileCatalog from "./FileCatalog";
 import Catalog from "./ThemeCatalog";
 
@@ -15,6 +15,10 @@ interface IExplorerType extends IPageIdParam {
 
 const ThemeExplorer: FC<IExplorerType> = ({ type, params }) => {
   const { user } = useAuth();
+
+  useEffect(() => {
+    console.log(params?.id);
+  }, []);
 
   const {
     data: themes,
@@ -35,7 +39,7 @@ const ThemeExplorer: FC<IExplorerType> = ({ type, params }) => {
     queryKey: ["file explorer"],
     queryFn: () => ThemeService.getById(params?.id as number),
     select: ({ data }) => data,
-    enabled: !!user,
+    enabled: !!user && !!params?.id,
   });
 
   return (

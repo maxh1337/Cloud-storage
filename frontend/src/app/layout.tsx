@@ -13,8 +13,8 @@ export const metadata: Metadata = {
     icon: "/images/logo5.svg",
   },
   title: {
-    absolute: "Cloud",
-    template: `%s | Cloud`,
+    absolute: "Cloud Storage",
+    template: `%s | Cloud Storage`,
   },
   metadataBase: new URL(getSiteUrl()),
   openGraph: {

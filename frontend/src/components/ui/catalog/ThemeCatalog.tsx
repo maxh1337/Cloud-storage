@@ -5,14 +5,10 @@ import { FC, useEffect, useState } from "react";
 import Loader from "../Loader";
 
 import { useActions } from "@/hooks/useActions";
+import { DeleteThemeOrFile } from "@/hooks/useFileOrTheme";
 import { useGetCurrentShown, useIsDeleteShown } from "@/hooks/useShowAndDelete";
-import { ThemeService } from "@/services/theme/theme.service";
 import { ITheme } from "@/types/theme.interface";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  useMutation,
-} from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Popconfirm } from "antd";
 import Heading from "../Heading";
 import Button from "../button/Button";
@@ -38,18 +34,7 @@ const Catalog: FC<ICatalog> = ({ title, data, isLoading, refetch }) => {
     afterSuccessDelete();
   }, []);
 
-  const { mutate, error: err } = useMutation({
-    mutationKey: ["delete theme"],
-    mutationFn: () => ThemeService.delete("folder", current),
-    onSuccess() {
-      refetch();
-      afterSuccessDelete();
-    },
-    onError(error) {
-      console.log(error);
-      console.log(err);
-    },
-  });
+  const { mutate } = DeleteThemeOrFile("folder", current, refetch);
 
   if (isLoading) return <Loader />;
 

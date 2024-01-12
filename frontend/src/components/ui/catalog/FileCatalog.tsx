@@ -4,21 +4,17 @@ import { FC, useEffect, useState } from "react";
 
 import Loader from "../Loader";
 
-import instance from "@/api/api.interceptor";
 import { useActions } from "@/hooks/useActions";
+import { handleDownload } from "@/hooks/useFile";
+import { DeleteThemeOrFile } from "@/hooks/useFileOrTheme";
 import {
   useChangeDownloadFileName,
   useGetCurrentShown,
   useIsDeleteShown,
 } from "@/hooks/useShowAndDelete";
-import { ThemeService } from "@/services/theme/theme.service";
 import { TypeParamId } from "@/types/page-params";
 import { ITheme } from "@/types/theme.interface";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  useMutation,
-} from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Popconfirm } from "antd";
 import Heading from "../Heading";
 import Button from "../button/Button";
@@ -53,32 +49,7 @@ const FileCatalog: FC<ICatalog> = ({
     afterSuccessDelete();
   }, []);
 
-  const { mutate, error: err } = useMutation({
-    mutationKey: ["delete theme"],
-    mutationFn: () => ThemeService.delete("file", current),
-    onSuccess() {
-      refetch();
-      afterSuccessDelete();
-    },
-    onError(error) {
-      console.log(error);
-    },
-  });
-
-  async function handleDownload() {
-    return instance<File>({
-      url: `file/download/${currentFileId}`,
-      method: "GET",
-    }).then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    });
-  }
+  const { mutate } = DeleteThemeOrFile("file", current, refetch);
 
   if (isLoading) return <Loader />;
 
@@ -122,7 +93,7 @@ const FileCatalog: FC<ICatalog> = ({
                 variant="blue"
                 className=" mr-4"
                 onClick={() => {
-                  handleDownload();
+                  handleDownload(fileName, currentFileId);
                 }}
               >
                 Скачать файл
