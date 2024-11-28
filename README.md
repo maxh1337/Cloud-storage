@@ -6,7 +6,7 @@
 - PrismaOrm
 - TypeScript
 
-## Frontend 
+## Frontend: 
 - NextJs
 - TailwindCss
 - TypeScript
